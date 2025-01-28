@@ -7,9 +7,16 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::all();
+        $status = $request->query('status');
+    
+        if ($status) {
+            $tasks = Task::where('status', $status)->get();
+        } else {
+            $tasks = Task::all();
+        }
+    
         return response()->json($tasks);
     }
 
